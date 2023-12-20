@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useCallback} from 'react';
 import {useAuthStore} from '~/store';
 import {useInterval} from '.';
 
@@ -31,19 +31,21 @@ const useOtpVerification = ({onSuccess}: UseOtpVerificationProps) => {
   const resendOTP = () => {
     setOtpCode('');
     sendOTP();
-    setPlaying(true);
+    setInvalidOTPCode(false);
     setCount(30);
+    setPlaying(true);
   };
 
+  const handleCountDown = useCallback(() => {
+    if (count <= 0) {
+      setPlaying(false);
+    } else {
+      setCount(prev => prev - 1);
+    }
+  }, [count]);
+
   useInterval(
-    () => {
-      // Your custom logic here
-      if (count === 0) {
-        setPlaying(false);
-      } else {
-        setCount(prev => prev - 1);
-      }
-    },
+    handleCountDown,
     // Delay in milliseconds or null to stop it
     isPlaying ? 1000 : null,
   );

@@ -7,6 +7,7 @@ type OTPInputProps = {
   code: string;
   setCode: (text: string) => void;
   maximumLength: number;
+  disabled: boolean;
 };
 
 const OTPInput: React.FC<OTPInputProps> = props => {
@@ -43,6 +44,9 @@ const OTPInput: React.FC<OTPInputProps> = props => {
           ...(isValueFocused && isInputBoxFocused
             ? {borderColor: Colors.primary.brand}
             : {}),
+          backgroundColor: props.disabled
+            ? Colors.neutral.s100
+            : Colors.neutral.white,
         }}>
         <Text style={style.otpCircularText}>{digit}</Text>
       </View>
@@ -66,6 +70,7 @@ const OTPInput: React.FC<OTPInputProps> = props => {
         maxLength={props.maximumLength}
         ref={inputRef}
         onBlur={handleOnBlur}
+        editable={!props.disabled}
       />
     </View>
   );

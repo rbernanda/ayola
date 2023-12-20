@@ -48,6 +48,7 @@ const OtpScreen = ({navigation}: Props) => {
               code={otpCode}
               maximumLength={expectedOTP.length}
               setCode={onChangeCode}
+              disabled={timeout}
             />
           </View>
         )}
